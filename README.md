@@ -33,6 +33,8 @@ Will:
 * the output will be sent to the console using `puts`
 * any errors will call `error_handler`
 
+Note: for each root_path, all files under are invoked in alphabetical order
+
 ### installation
 
     cd script-runner
