@@ -46,6 +46,7 @@ Note: for each root_path, all files under are invoked in alphabetical order
 
 
 ### Changelog
+0.0.4 - fixed dependency on logging
 0.0.3 - Added logging
 0.0.2 - Added mit license
 0.0.1 - First version
