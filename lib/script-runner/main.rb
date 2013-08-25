@@ -1,5 +1,3 @@
-require 'logging'
-
 module ScriptRunner
 
   class Main
@@ -29,13 +27,12 @@ module ScriptRunner
 
       non_runnable = all_paths - runnable
 
-      @logger.debug "runnable: #{runnable}"
-
       non_runnable.each{ |nr|
         @logger.warn "#{nr} is not runnable - skipping"
       }
 
       runnable.each{ |p|
+        @logger.info "run => #{p}"
         exec(p, error_handler, &block)
       }
     end
@@ -69,7 +66,7 @@ module ScriptRunner
         File.readlines(p).each do |line|
           if line.include? "="
             key, value = line.split("=")
-            @logger.debug "set: #{key} -> #{value}"
+            @logger.debug "set: #{key.strip} -> #{value.strip}"
             ENV[key.strip] = value.strip
           end
         end

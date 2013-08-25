@@ -14,18 +14,22 @@ module ScriptRunner
   # -- :log_level - one of :debug, :info, :warn, :errror
   # @block - a block to handle the output of the script if non is given it is sent to the console
   def self.run( paths, env_vars, options = {}, &block)
-
-    Logging.appenders.stdout(
-      :layout => Logging.layouts.pattern(:pattern => '[%c][%-5l] %m\n'),
-      :color_scheme => 'bright')
-
-    logger = Logging.logger['script-runner']
-    logger.add_appenders(Logging.appenders.stdout)
-    logger.level = options[:log_level] || :warn
-
+    logger = options[:logger] || get_logger(options[:log_level])
     runner = ScriptRunner::Main.new(logger)
     error_handler = options[:error_handler]
     runner.run(paths, env_vars, error_handler, &block)
   end
+
+  private
+  def get_logger(log_level)
+    Logging.appenders.stdout(
+      :layout => Logging.layouts.pattern(:pattern => '[%c][%-5l] %m\n'),
+      :color_scheme => 'bright')
+    logger = Logging.logger['script-runner']
+    logger.add_appenders(Logging.appenders.stdout)
+    logger.level = log_level || :warn
+    logger
+  end
+
 
 end

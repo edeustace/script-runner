@@ -46,6 +46,7 @@ Note: for each root_path, all files under are invoked in alphabetical order
 
 
 ### Changelog
+0.0.6 - add your own logger if you want
 0.0.5 - only set env if there are scripts to run
 0.0.4 - fixed dependency on logging
 0.0.3 - Added logging

@@ -1,4 +1,5 @@
 require 'script-runner'
+require 'logging'
 
 describe ScriptRunner do
 
@@ -55,4 +56,5 @@ describe ScriptRunner do
      p = ScriptRunner.run(scripts("non_runnable"), env("one")) { |output| @all_output << output }
     @error_files.length.should eql 0
   end
+
 end
