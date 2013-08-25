@@ -43,3 +43,8 @@ Note: for each root_path, all files under are invoked in alphabetical order
     rake # run tests
     rake build # make .gem file
     gem install pkg/script-runner-0.0.1.gem
+
+
+### Changelog
+0.0.2 - Added mit license
+0.0.1 - First version
