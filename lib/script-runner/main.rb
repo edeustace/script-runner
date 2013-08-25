@@ -51,7 +51,6 @@ module ScriptRunner
       env_files = all_files(env_paths)
 
       env_files.each{ |p|
-        puts "setting env from #{p}"
         File.readlines(p).each do |line|
           if line.include? "="
             values = line.split("=")

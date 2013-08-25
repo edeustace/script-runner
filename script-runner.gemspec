@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{it just runs scripts}
   gem.summary       = gem.description
   gem.homepage      = "http://github.com/edeustace/script-runner"
+  gem.license       = 'MIT'
   gem.files         = `git ls-files`.split($\)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = name
