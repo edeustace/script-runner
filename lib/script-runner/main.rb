@@ -19,13 +19,18 @@ module ScriptRunner
     # @block - a block to handle the output of the script if non is given it is sent to the console
     def run( paths, env_vars, error_handler = nil, &block)
 
-      set_env(env_vars)
       all_paths = all_files(paths).select{ |p| File.file? p }
+
       @logger.debug all_paths
+
       runnable = all_paths.select{ |p| File.executable? p }
+
+      set_env(env_vars) if runnable.length > 0
+
       non_runnable = all_paths - runnable
-      @logger.debug "non_runnable: #{non_runnable}"
+
       @logger.debug "runnable: #{runnable}"
+
       non_runnable.each{ |nr|
         @logger.warn "#{nr} is not runnable - skipping"
       }
