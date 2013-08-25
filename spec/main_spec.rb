@@ -27,19 +27,21 @@ describe ScriptRunner do
   end
 
   it "should allow errors to be handled" do
-    error_handler = lambda{ |p| @error_files << p}
-    p = ScriptRunner.run(scripts("one", "has_error"), env("one"), error_handler) { |output| @all_output << output }
+    options = {
+      :error_handler => lambda{ |p| @error_files << p},
+      :log_level => :debug
+    }
+
+    p = ScriptRunner.run(scripts("one", "has_error"), env("one"), options) { |output| @all_output << output }
     @error_files.length.should eql 1
   end
 
   it "should call nested in alphabetical order" do
-    puts "before : #{@all_output}"
     p = ScriptRunner.run(scripts("nested"), env("one")) { |output| @all_output << output }
     @all_output.should eql ["spec/fixtures/nested/scripts/a/one.sh", "spec/fixtures/nested/scripts/one.sh"]
   end
 
   it "should call multiple nested in alphabetical order" do
-    puts "before : #{@all_output}"
     p = ScriptRunner.run(scripts("one", "nested_two", "nested"), env("one")) { |output| @all_output << output }
     @all_output.should eql [
       "hello there custom var",
@@ -47,5 +49,10 @@ describe ScriptRunner do
       "spec/fixtures/nested_two/scripts/one.sh",
       "spec/fixtures/nested/scripts/a/one.sh",
       "spec/fixtures/nested/scripts/one.sh"]
+  end
+
+  it "should skip non runnable files" do
+     p = ScriptRunner.run(scripts("non_runnable"), env("one")) { |output| @all_output << output }
+    @error_files.length.should eql 0
   end
 end

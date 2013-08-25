@@ -6,11 +6,11 @@ A very simple library for running scripts on a file system.
 
     require 'script-runner'
     ScriptRunner.run( array_of_paths, array_of_env_paths, error_handler, &handle_script_output )
-    
+
 ## Example
 
 If we have the following file structure
-    
+
 
     path-one/
       script.sh
@@ -20,7 +20,7 @@ If we have the following file structure
       script.sh
     env-one/
       one.properties
-      
+
 The following:
 
     require 'script-runner'
@@ -46,5 +46,6 @@ Note: for each root_path, all files under are invoked in alphabetical order
 
 
 ### Changelog
+0.0.3 - Added logging
 0.0.2 - Added mit license
 0.0.1 - First version

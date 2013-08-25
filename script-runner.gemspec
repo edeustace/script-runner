@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.version       = ScriptRunner::VERSION
   gem.add_development_dependency "rspec", "~> 2.6"
   gem.add_development_dependency "rake", "~> 10.1.0"
+  gem.add_development_dependency "logging", "~> 1.8.1"
   gem.add_dependency "thor"
 
 end

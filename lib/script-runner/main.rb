@@ -1,6 +1,13 @@
+require 'logging'
+
 module ScriptRunner
 
   class Main
+
+    def initialize(logger)
+      @logger = logger
+    end
+
 
     # Run a set of scripts
     #
@@ -11,16 +18,19 @@ module ScriptRunner
     # @error_handler - a callback if a non-zero exit code occured
     # @block - a block to handle the output of the script if non is given it is sent to the console
     def run( paths, env_vars, error_handler = nil, &block)
+
       set_env(env_vars)
       all_paths = all_files(paths).select{ |p| File.file? p }
+      @logger.debug all_paths
       runnable = all_paths.select{ |p| File.executable? p }
       non_runnable = all_paths - runnable
-
+      @logger.debug "non_runnable: #{non_runnable}"
+      @logger.debug "runnable: #{runnable}"
       non_runnable.each{ |nr|
-        puts "warning: #{nr} is not runnable - skipping"
+        @logger.warn "#{nr} is not runnable - skipping"
       }
 
-      all_paths.each{ |p|
+      runnable.each{ |p|
         exec(p, error_handler, &block)
       }
     end
@@ -33,7 +43,7 @@ module ScriptRunner
           if block_given?
             block.call(line.chomp)
           else
-            puts line.chomp
+            @logger.info line.chomp
           end
         end
         io.close
@@ -53,8 +63,9 @@ module ScriptRunner
       env_files.each{ |p|
         File.readlines(p).each do |line|
           if line.include? "="
-            values = line.split("=")
-            ENV[values[0].chomp] = values[1].chomp
+            key, value = line.split("=")
+            @logger.debug "set: #{key} -> #{value}"
+            ENV[key.strip] = value.strip
           end
         end
       }
